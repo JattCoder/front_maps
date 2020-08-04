@@ -1,6 +1,7 @@
 import React,{ useState } from 'react'
 import { View, Text, StyleSheet, Image } from 'react-native'
 import { TouchableOpacity, TextInput } from 'react-native-gesture-handler'
+import Input from '../components/input'
 import Dialog from "react-native-dialog";
 import Recover from './recover'
 
@@ -22,8 +23,16 @@ const Login = (props) => {
         <View style={Styles.Page}>
             <Text style={Styles.Heading}>Welcome to New App</Text>
             <Image source={{uri:'https://images.app.goo.gl/REU5wKvQuZMF4YGL6'}}/>
-            <TextInput placeholder='Email' style={Styles.EmailInput} onChangeText={e=>setemail(e)}/>
-            <TextInput placeholder='Password' style={Styles.PassInput} onChangeText={p=>setpass(p)} secureTextEntry={true}/>
+            <TouchableOpacity style={Styles.EmailBox}>
+                <Text style={{color:'white'}}>Email</Text>
+                <TouchableOpacity style={{height:25,borderWidth:0.6,marginLeft:7,marginTop:-4,borderColor:'black'}}/>
+                <TextInput style={Styles.EmailInput} onChangeText={e=>setemail(e)}/>
+            </TouchableOpacity>
+            <TouchableOpacity style={Styles.PassBox}>
+                <Text style={{color:'white'}}>Pass </Text>
+                <TouchableOpacity style={{height:25,borderWidth:0.6,marginLeft:7,marginTop:-4,borderColor:'black'}}/>
+                <TextInput style={Styles.PassInput} onChangeText={e=>setemail(e)}/>
+            </TouchableOpacity>
             <TouchableOpacity style={Styles.Login} onPress={(e)=>LoginAttempt(e)}>
                 <Text style={Styles.LoginText}>Login</Text>
             </TouchableOpacity>
@@ -38,46 +47,77 @@ export default Login
 
 const Styles = StyleSheet.create({
     Page:{
-        margin:50
+        height:'100%',
+        width:'100%',
+        backgroundColor:'#5810d8',
+        justifyContent:'center',
+        alignItems:'center'
     },
     Heading:{
         fontSize:25,
-        color:'black',
+        color:'white',
         marginTop:150,
-        marginLeft:45
     },
     Google:{
         marginTop:20,
         borderRadius:25,
-        backgroundColor:'black',
-        height:40,
+        backgroundColor:'white',
+        height:45,
         bottom:0,
+        alignItems:'center',
+        width:250
     },
     GoogleText:{
         padding:12,
-        color:'white',
-        marginLeft:90
+        color:'black'
     },
     Login:{
         marginTop:60,
         borderRadius:25,
-        backgroundColor:'black',
-        height:40,
+        backgroundColor:'white',
+        height:45,
         bottom:0,
+        alignItems:'center',
+        width:250
     },
     LoginText:{
         padding:12,
-        color:'white',
-        marginLeft:130
+        color:'black',
+    },
+    EmailBox:{
+        marginTop:330,
+        borderRadius:25,
+        borderColor:'black',
+        borderWidth:0.8,
+        width:280,
+        height:45,
+        flexDirection:'row',
+        padding:13
+    },
+    PassBox:{
+        marginTop:20,
+        borderRadius:25,
+        borderColor:'black',
+        borderWidth:0.8,
+        width:280,
+        height:45,
+        flexDirection:'row',
+        padding:13
     },
     EmailInput:{
-        padding:10,
-        marginLeft:25,
-        marginTop:330
+        paddingLeft:1,
+        paddingRight:1,
+        width:190,
+        height:20,
+        marginLeft:10,
+        color:'white'
     },
     PassInput:{
-        padding:10,
-        marginLeft:25,
-        marginTop:10
+        paddingLeft:1,
+        paddingRight:1,
+        width:190,
+        height:20,
+        marginLeft:10,
+        color:'white'
     }
 })
