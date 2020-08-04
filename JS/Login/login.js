@@ -1,43 +1,79 @@
 import React,{ useState } from 'react'
-import { View, Text, StyleSheet, Image } from 'react-native'
+import { View, Text, StyleSheet, Image, ActivityIndicator } from 'react-native'
 import { TouchableOpacity, TextInput } from 'react-native-gesture-handler'
-import Input from '../components/input'
+import { useSelector, useDispatch } from 'react-redux'
+import loginAction from '../../actions/login'
+import resetAction from '../../actions/reslogin'
 import Dialog from "react-native-dialog";
 import Recover from './recover'
 
 const Login = (props) => {
+    const[loginLoad,setloginLoad] = useState(false)
+    const[googleLoad,setgoogleLoad] = useState(false)
     const[tries,settries] = useState(0)
+    const[recovery,setrecovery] = useState(false)
     const[email,setemail] = useState('')
     const[pass,setpass] = useState('')
-    const[show,setshow] = useState(false)
     const[forgot,setforgot] = useState(true)
+    const dispatch = useDispatch()
 
-    LoginAttempt = (e) => {
-        settries(tries+1)
-      
-        //props.navigation.navigate('LoginAttempt',{email:email})
-        //alert(`Email: ${email}\nPassword: ${pass}\nAttempts: ${tries}`)
+    LoginAttempt = () => {
+        if(email == '' || pass == ''){
+            if(email == '') alert('Email field is empty')
+            else if(pass == '') alert('Password field is empty')
+        }else{
+            settries(tries+1)
+            setloginLoad(true)
+            dispatch(loginAction(email,pass,'App'))
+        }
     }
-    if(tries >= 4) alert('Password Reset?')
+
+    GoogleAttempt = () => {
+        setgoogleLoad(true)
+        dispatch(loginAction(email,pass,'Google'))
+    }
+
+    cancelRecovery = () => {
+        alert('Do not want to recover my account')
+    }
+
+    acceptRecovery = () => {
+        alert('Want to recover my account')
+    }
+
+    useSelector((state)=>{
+        //setloginLoad(false)
+        //setgoogleLoad(false)
+        console.log(state.login.result)
+    })
+
+    if(tries >= 4) setrecovery(true)
+
     return(
         <View style={Styles.Page}>
+            <Dialog.Container visible={recovery}>
+                <Dialog.Title>Account Recovery?</Dialog.Title>
+                <Dialog.Description>Detected Multiple Attempts, Would you like to recover your account?</Dialog.Description>
+                <Dialog.Button label='Cancel' onPress={()=>cancelRecovery()}/>
+                <Dialog.Button label='Recover' onPress={()=>acceptRecovery()}/>
+            </Dialog.Container>
             <Text style={Styles.Heading}>Welcome to New App</Text>
             <Image source={{uri:'https://images.app.goo.gl/REU5wKvQuZMF4YGL6'}}/>
             <TouchableOpacity style={Styles.EmailBox}>
                 <Text style={{color:'white'}}>Email</Text>
                 <TouchableOpacity style={{height:25,borderWidth:0.6,marginLeft:7,marginTop:-4,borderColor:'black'}}/>
-                <TextInput style={Styles.EmailInput} onChangeText={e=>setemail(e)}/>
+                <TextInput style={Styles.EmailInput} onChangeText={()=>setemail()}/>
             </TouchableOpacity>
             <TouchableOpacity style={Styles.PassBox}>
                 <Text style={{color:'white'}}>Pass </Text>
                 <TouchableOpacity style={{height:25,borderWidth:0.6,marginLeft:7,marginTop:-4,borderColor:'black'}}/>
-                <TextInput style={Styles.PassInput} onChangeText={e=>setemail(e)}/>
+                <TextInput style={Styles.PassInput} secureTextEntry={true} onChangeText={()=>setpass()}/>
             </TouchableOpacity>
-            <TouchableOpacity style={Styles.Login} onPress={(e)=>LoginAttempt(e)}>
-                <Text style={Styles.LoginText}>Login</Text>
+            <TouchableOpacity style={Styles.Login} onPress={()=>LoginAttempt()}>
+                {loginLoad == false ? <Text style={Styles.LoginText}>Login</Text> : <ActivityIndicator size='small' color='#5810d8'/>}
             </TouchableOpacity>
-            <TouchableOpacity style={Styles.Google} onPress={()=>{props.navigation.navigate('Home',{name:'Harry Potter'})}}>
-                <Text style={Styles.GoogleText}>Login with Google</Text>
+            <TouchableOpacity style={Styles.Google} onPress={()=>{GoogleAttempt()}}>
+                {googleLoad == false ? <Text style={Styles.GoogleText}>Login with Google</Text> : <ActivityIndicator size='small' color='#5810d8'/>}
             </TouchableOpacity>
         </View>
     )
@@ -64,8 +100,10 @@ const Styles = StyleSheet.create({
         backgroundColor:'white',
         height:45,
         bottom:0,
+        justifyContent:'center',
         alignItems:'center',
-        width:250
+        width:250,
+        flexDirection:'row'
     },
     GoogleText:{
         padding:12,
@@ -77,8 +115,10 @@ const Styles = StyleSheet.create({
         backgroundColor:'white',
         height:45,
         bottom:0,
+        justifyContent:'center',
         alignItems:'center',
-        width:250
+        width:250,
+        flexDirection:'row'
     },
     LoginText:{
         padding:12,

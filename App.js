@@ -1,4 +1,6 @@
 import React from 'react'
+import { Provider } from 'react-redux'
+import Store from './store/store'
 import { NavigationContainer } from '@react-navigation/native';
 import 'react-native-gesture-handler';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -8,17 +10,20 @@ import Recover from './JS/Login/recover'
 import Home from './JS/Home/home'
 
 const Stack = createStackNavigator()
+const store = Store()
 
 const App = () => {
   return(
-    <NavigationContainer>{
-      <Stack.Navigator screenOptions={{headerShown: false}}>
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name='LoginAttempt' component={LoginAttempt} />
-        <Stack.Screen name="Recover" component={Recover} />
-        <Stack.Screen name="Home" component={Home} />
-      </Stack.Navigator>
-    }</NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>{
+        <Stack.Navigator screenOptions={{headerShown: false}}>
+          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name='LoginAttempt' component={LoginAttempt} />
+          <Stack.Screen name="Recover" component={Recover} />
+          <Stack.Screen name="Home" component={Home} />
+        </Stack.Navigator>
+      }</NavigationContainer>
+    </Provider>
   )
 }
 
