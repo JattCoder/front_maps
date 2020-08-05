@@ -1,5 +1,5 @@
-import { LOGIN } from '../actions/login'
-import { LOGIN_RES } from '../actions/reslogin'
+import { LOGIN } from '../actions/login/login'
+import { LOGIN_RES } from '../actions/login/reslogin'
 
 let initialState = {
     code: '',

@@ -2,8 +2,8 @@ import React,{ useState } from 'react'
 import { View, Text, StyleSheet, Image, ActivityIndicator } from 'react-native'
 import { TouchableOpacity, TextInput } from 'react-native-gesture-handler'
 import { useSelector, useDispatch } from 'react-redux'
-import loginAction from '../../actions/login'
-import resetAction from '../../actions/reslogin'
+import loginAction from '../../actions/login/login'
+import resetAction from '../../actions/login/reslogin'
 import Dialog from "react-native-dialog";
 import Recover from './recover'
 
