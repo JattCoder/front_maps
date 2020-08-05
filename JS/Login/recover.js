@@ -24,6 +24,21 @@ const Recover = (props) => {
 
     useSelector((state)=>{
         console.log('recovery result: '+state.recovery.result)
+        if(state.recovery.result == false || state.recovery.message != ''){
+            alert(state.recovery.message)
+        }else if(state.recovery.result == true){
+            if(state.recovery.message == 'Change Password'){
+                //open page to change password
+            }else if(state.recovery.message == 'Password Changed'){
+                //open homepage
+            }else if(state.recovery.message == 'Check Your Email'){
+                //dialog for this.. take the code from user
+            }else if(state.recovery.message == 'PIN Confirmed'){
+                //if PIN Code is confirmed, take the user to password change page
+            }
+            setstartRecovery(false)
+            //make another request to backend to confirm if data matches and 
+        }
     })
 
     forgotPIN = () => {
