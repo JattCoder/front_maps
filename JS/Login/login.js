@@ -11,21 +11,24 @@ const Login = (props) => {
     const[loginLoad,setloginLoad] = useState(false)
     const[googleLoad,setgoogleLoad] = useState(false)
     const[tries,settries] = useState(0)
+    const[recoveryinput,setrinput] = useState('')
     const[recovery,setrecovery] = useState(false)
+    const[recover,setrecover] = useState(false)
     const[email,setemail] = useState('')
     const[pass,setpass] = useState('')
     const[forgot,setforgot] = useState(true)
     const dispatch = useDispatch()
 
     LoginAttempt = () => {
-        if(email == '' || pass == ''){
-            if(email == '') alert('Email field is empty')
-            else if(pass == '') alert('Password field is empty')
-        }else{
-            settries(tries+1)
-            setloginLoad(true)
-            dispatch(loginAction(email,pass,'App'))
-        }
+        // if(email == '' || pass == ''){
+        //     if(email == '') alert('Email field is empty')
+        //     else if(pass == '') alert('Password field is empty')
+        // }else{
+        //     settries(tries+1)
+        //     setloginLoad(true)
+        //     dispatch(loginAction(email,pass,'App'))
+        // }
+        settries(tries+1)
     }
 
     GoogleAttempt = () => {
@@ -34,29 +37,40 @@ const Login = (props) => {
     }
 
     cancelRecovery = () => {
+        settries(0)
         alert('Do not want to recover my account')
     }
 
     acceptRecovery = () => {
-        alert('Want to recover my account')
+        settries(0)
+        props.navigation.navigate('Recover')
     }
 
     useSelector((state)=>{
-        //setloginLoad(false)
-        //setgoogleLoad(false)
+        if(state.login.result == false && state.login.message != ''){
+            alert(state.login.message)
+            dispatch(resetAction())
+            setloginLoad(false)
+            setgoogleLoad(false)
+        }else if(state.login.result == true){
+            if(state.login.message.method == 'Login'){
+                settries(0)
+            }
+            setloginLoad(false)
+            setgoogleLoad(false)
+            props.navigation.navigate('Home')
+        }
         console.log(state.login.result)
     })
 
-    if(tries >= 4) setrecovery(true)
-
     return(
         <View style={Styles.Page}>
-            <Dialog.Container visible={recovery}>
+            {tries >= 4 ? <Dialog.Container visible={true}>
                 <Dialog.Title>Account Recovery?</Dialog.Title>
                 <Dialog.Description>Detected Multiple Attempts, Would you like to recover your account?</Dialog.Description>
                 <Dialog.Button label='Cancel' onPress={()=>cancelRecovery()}/>
                 <Dialog.Button label='Recover' onPress={()=>acceptRecovery()}/>
-            </Dialog.Container>
+            </Dialog.Container> : <Dialog.Container visible={false}/>}
             <Text style={Styles.Heading}>Welcome to New App</Text>
             <Image source={{uri:'https://images.app.goo.gl/REU5wKvQuZMF4YGL6'}}/>
             <TouchableOpacity style={Styles.EmailBox}>
