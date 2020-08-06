@@ -5,7 +5,6 @@ import { useSelector, useDispatch } from 'react-redux'
 import loginAction from '../../actions/login/login'
 import resetAction from '../../actions/login/reslogin'
 import Dialog from "react-native-dialog";
-import Recover from './recover'
 
 const Login = (props) => {
     const[loginLoad,setloginLoad] = useState(false)
@@ -32,8 +31,9 @@ const Login = (props) => {
     }
 
     GoogleAttempt = () => {
+        setTimeout(()=>setgoogleLoad(false),5000)
         setgoogleLoad(true)
-        dispatch(loginAction(email,pass,'Google'))
+        //dispatch(loginAction(email,pass,'Google'))
     }
 
     cancelRecovery = () => {

@@ -1,6 +1,7 @@
 import React,{useState} from 'react'
 import { useSelector, useDispatch} from 'react-redux'
 import recoverAction from '../../actions/recover/account'
+import Dialog from "react-native-dialog";
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, ActivityIndicator } from 'react-native'
 
 const Recover = (props) => {
@@ -9,6 +10,7 @@ const Recover = (props) => {
     const[pin,setpin] = useState('')
     const[startRecovery,setstartRecovery] = useState(false)
     const[forgot,setforgot] = useState(false)
+    const[rcode,setrcode] = useState(false)
     const dispatch = useDispatch()
 
     attemptRecovery = () => {
@@ -23,30 +25,39 @@ const Recover = (props) => {
     }
 
     useSelector((state)=>{
-        console.log('recovery result: '+state.recovery.result)
-        if(state.recovery.result == false || state.recovery.message != ''){
+        if(state.recovery.result == false && state.recovery.message != ''){
             alert(state.recovery.message)
-        }else if(state.recovery.result == true){
-            if(state.recovery.message == 'Change Password'){
-                //open page to change password
-            }else if(state.recovery.message == 'Password Changed'){
-                //open homepage
-            }else if(state.recovery.message == 'Check Your Email'){
-                //dialog for this.. take the code from user
-            }else if(state.recovery.message == 'PIN Confirmed'){
-                //if PIN Code is confirmed, take the user to password change page
-            }
             setstartRecovery(false)
-            //make another request to backend to confirm if data matches and 
+            setforgot(false)
+        }else if(state.recovery.result == true){
+            setstartRecovery(false)
+            setforgot(false)
+            if(state.recovery.message == 'Change Password'){
+                props.navigation.navigate('PassReset')
+            }else if(state.recovery.message == 'Check Your Email'){
+                setrcode(true)
+            }
         }
     })
 
     forgotPIN = () => {
-        setforgot(true)
+        if(name == '' || email == ''){
+            if(name == '') alert('Name field is empty!')
+            else if(email == '') alert('Email field is empty!')
+        }else{
+            setforgot(true)
+            dispatch(recoverAction(name,email,pin))
+        }
     }
 
     return(
         <View style={Styles.Page}>
+            {rcode == true ? <Dialog.Container visible={true}>
+                <Dialog.Title>Account Recovery?</Dialog.Title>
+                <Dialog.Description>Detected Multiple Attempts, Would you like to recover your account?</Dialog.Description>
+                <Dialog.Button label='Cancel' onPress={()=>{alert('cancel')}}/>
+                <Dialog.Button label='Recover' onPress={()=>{alert('recover')}}/>
+            </Dialog.Container> : <Dialog.Container visible={false}/>}
             <Text style={{color:'white',fontSize:25}}>Account Recovery</Text>
             <TouchableOpacity style={Styles.NameBox}>
                 <Text style={{color:'white'}}>Name</Text>
