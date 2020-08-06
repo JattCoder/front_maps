@@ -38,7 +38,6 @@ const Login = (props) => {
 
     cancelRecovery = () => {
         settries(0)
-        alert('Do not want to recover my account')
     }
 
     acceptRecovery = () => {
@@ -60,7 +59,6 @@ const Login = (props) => {
             setgoogleLoad(false)
             props.navigation.navigate('Home')
         }
-        console.log(state.login.result)
     })
 
     return(
@@ -76,12 +74,12 @@ const Login = (props) => {
             <TouchableOpacity style={Styles.EmailBox}>
                 <Text style={{color:'white'}}>Email</Text>
                 <TouchableOpacity style={{height:25,borderWidth:0.6,marginLeft:7,marginTop:-4,borderColor:'black'}}/>
-                <TextInput style={Styles.EmailInput} onChangeText={()=>setemail()}/>
+                <TextInput style={Styles.EmailInput} onChangeText={(e)=>setemail(e)}/>
             </TouchableOpacity>
             <TouchableOpacity style={Styles.PassBox}>
                 <Text style={{color:'white'}}>Pass </Text>
                 <TouchableOpacity style={{height:25,borderWidth:0.6,marginLeft:7,marginTop:-4,borderColor:'black'}}/>
-                <TextInput style={Styles.PassInput} secureTextEntry={true} onChangeText={()=>setpass()}/>
+                <TextInput style={Styles.PassInput} secureTextEntry={true} onChangeText={(e)=>setpass(e)}/>
             </TouchableOpacity>
             <TouchableOpacity style={Styles.Login} onPress={()=>LoginAttempt()}>
                 {loginLoad == false ? <Text style={Styles.LoginText}>Login</Text> : <ActivityIndicator size='small' color='#5810d8'/>}

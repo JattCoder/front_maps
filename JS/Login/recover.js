@@ -1,6 +1,7 @@
 import React,{useState} from 'react'
-import { useSelector, useDispatch} from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import recoverAction from '../../actions/recover/account'
+import pinAction from '../../actions/recover/pin'
 import Dialog from "react-native-dialog";
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, ActivityIndicator } from 'react-native'
 
@@ -8,6 +9,7 @@ const Recover = (props) => {
     const[name,setname] = useState('')
     const[email,setemail] = useState('')
     const[pin,setpin] = useState('')
+    const[ecode,setecode] = useState('')
     const[startRecovery,setstartRecovery] = useState(false)
     const[forgot,setforgot] = useState(false)
     const[rcode,setrcode] = useState(false)
@@ -29,12 +31,14 @@ const Recover = (props) => {
             alert(state.recovery.message)
             setstartRecovery(false)
             setforgot(false)
+            setrcode(false)
         }else if(state.recovery.result == true){
             setstartRecovery(false)
             setforgot(false)
             if(state.recovery.message == 'Change Password'){
-                props.navigation.navigate('PassReset')
+                props.navigation.navigate('PassReset',{email: email})
             }else if(state.recovery.message == 'Check Your Email'){
+                setforgot(false)
                 setrcode(true)
             }
         }
@@ -46,16 +50,18 @@ const Recover = (props) => {
             else if(email == '') alert('Email field is empty!')
         }else{
             setforgot(true)
-            dispatch(recoverAction(name,email,pin))
+            dispatch(pinAction(name,email))
         }
     }
 
     return(
         <View style={Styles.Page}>
             {rcode == true ? <Dialog.Container visible={true}>
-                <Dialog.Title>Account Recovery?</Dialog.Title>
-                <Dialog.Description>Detected Multiple Attempts, Would you like to recover your account?</Dialog.Description>
+                <Dialog.Title>Check Your Email</Dialog.Title>
+                <Dialog.Description>Enter Code Received in Email</Dialog.Description>
+                <Dialog.TextInput onChangeText={(e)=>setecode(e)}/>
                 <Dialog.Button label='Cancel' onPress={()=>{alert('cancel')}}/>
+                <Dialog.Button label='Re-send' onPress={()=> dispatch(pinAction())}/>
                 <Dialog.Button label='Recover' onPress={()=>{alert('recover')}}/>
             </Dialog.Container> : <Dialog.Container visible={false}/>}
             <Text style={{color:'white',fontSize:25}}>Account Recovery</Text>
