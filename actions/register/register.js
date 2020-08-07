@@ -10,7 +10,7 @@ export const register = (name,email,phone,photo,password,rec,method) => {
             body: JSON.stringify({name,email,phone,photo,password,rec,method})
         })
         .then(res => {return res.json()})
-        .then(data => {dispatch({type: REGISTER, response: data[0]})})
+        .then(data => {dispatch({type: REGISTER, response: data})})
         .catch(err => console.log(err))
     }
 }

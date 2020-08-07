@@ -25,7 +25,7 @@ const Login = (props) => {
         }else{
             settries(tries+1)
             setloginLoad(true)
-            dispatch(login(email,pass))
+            dispatch(login(email,pass,'App'))
         }
         settries(tries+1)
     }
@@ -33,7 +33,7 @@ const Login = (props) => {
     GoogleAttempt = () => {
         setTimeout(()=>setgoogleLoad(false),5000)
         setgoogleLoad(true)
-        //dispatch(loginAction(email,pass,'Google'))
+        dispatch(login(email,pass,'Google'))
     }
 
     cancelRecovery = () => {
