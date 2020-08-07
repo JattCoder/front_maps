@@ -1,6 +1,6 @@
 import React,{ useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import changeAction from '../../actions/recover/passchange'
+import { changeAction } from '../../actions/recover/passchange'
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 
 const Passreset = (props) => {

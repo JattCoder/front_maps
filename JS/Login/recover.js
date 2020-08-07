@@ -1,7 +1,7 @@
 import React,{useState} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import recoverAction from '../../actions/recover/account'
-import pinAction from '../../actions/recover/pin'
+import { recoverAction } from '../../actions/recover/account'
+import { pinAction } from '../../actions/recover/pin'
 import Dialog from "react-native-dialog";
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, ActivityIndicator } from 'react-native'
 

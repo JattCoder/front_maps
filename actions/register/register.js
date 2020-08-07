@@ -1,15 +1,28 @@
 export const REGISTER = 'REGISTER'
 
-export const register = (name,email,phone,photo,pass,code,method) => {
+export const register = (name,email,phone,photo,password,rec,method) => {
     return async (dispatch) => {
-        return await fetch('https://localhost:3000/account',{
+        return await fetch('http://localhost:3000/account/new',{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({nm: name,em: email,ph: phone,po: photo,ps: pass,cd: code,md: method})
+            body: JSON.stringify({name,email,phone,photo,password,rec,method})
         })
         .then(res => {return res.json()})
-        .then(data => {dispatch({type: LOGIN, response: data})})
+        .then(data => {dispatch({type: REGISTER, response: data[0]})})
+        .catch(err => console.log(err))
     }
 }
+
+// {
+//     "code": "Success", 
+//     "message": {
+//         "email": "Harmandeep Mand.hm@gmail.com", 
+//         "id": 3, 
+//         "method": "App", 
+//         "name": "Harmandeep Mand", 
+//         "phone": "4403171521", 
+//         "photo": ""}, 
+//     "result": true
+// }

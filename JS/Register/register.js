@@ -1,7 +1,7 @@
 import React,{ useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import registerAction from '../../actions/register/register'
-import { View, StyleSheet, TouchableOpacity, Text, TextInput } from 'react-native'
+import { register } from '../../actions/register/register'
+import { View, StyleSheet, TouchableOpacity, Text, TextInput, ActivityIndicator } from 'react-native'
 
 const Register = () => {
 
@@ -27,28 +27,29 @@ const Register = () => {
         else if(pass.length <= 5) alert('Password too short')
         else{
             setregisterLoad(true)
-            dispatch(registerAction(name,email,phone,photo,pass,code,'App'))
+            dispatch(register(name,email,phone,photo,pass,code,'App'))
         }
     }
 
     useSelector((state)=>{
-        if(state.login.result == false && state.login.message != ''){
-            alert(state.login.message)
-            setregisterLoad(false)
-        }else if(state.login.result == true){
-            setregisterLoad(false)
-        }
+        // if(state.login.result == false && state.login.message != ''){
+        //     alert(state.login.message)
+        //     setregisterLoad(false)
+        // }else if(state.login.result == true){
+        //     setregisterLoad(false)
+        // }
     })
 
     return(
         <View style={Styles.Page}>
+            <Text style={Styles.Heading}>Register</Text>
             <TouchableOpacity style={Styles.FirstBox}>
-                <Text style={{color:'white'}}>Name</Text>
+                <Text style={{color:'white'}}>Name </Text>
                 <TouchableOpacity style={{height:25,borderWidth:0.6,marginLeft:7,marginTop:-4,borderColor:'black'}}/>
                 <TextInput style={Styles.FirstInput} onChangeText={(e)=>setname(e)}/>
             </TouchableOpacity>
             <TouchableOpacity style={Styles.NextBox}>
-                <Text style={{color:'white'}}>Email</Text>
+                <Text style={{color:'white'}}>Email  </Text>
                 <TouchableOpacity style={{height:25,borderWidth:0.6,marginLeft:7,marginTop:-4,borderColor:'black'}}/>
                 <TextInput style={Styles.NextInput} onChangeText={(e)=>setemail(e)}/>
             </TouchableOpacity>
@@ -58,24 +59,24 @@ const Register = () => {
                 <TextInput style={Styles.NextInput} onChangeText={(e)=>setphone(e)}/>
             </TouchableOpacity>
             <TouchableOpacity style={Styles.NextBox}>
-                <Text style={{color:'white'}}>Pass </Text>
+                <Text style={{color:'white'}}>Pass  </Text>
                 <TouchableOpacity style={{height:25,borderWidth:0.6,marginLeft:7,marginTop:-4,borderColor:'black'}}/>
                 <TextInput style={Styles.NextInput} secureTextEntry={true} onChangeText={(e)=>setpass(e)}/>
             </TouchableOpacity>
             <TouchableOpacity style={Styles.NextBox}>
-                <Text style={{color:'white'}}>Pass </Text>
+                <Text style={{color:'white'}}>Pass  </Text>
                 <TouchableOpacity style={{height:25,borderWidth:0.6,marginLeft:7,marginTop:-4,borderColor:'black'}}/>
                 <TextInput style={Styles.NextInput} secureTextEntry={true} onChangeText={(e)=>setrpass(e)}/>
             </TouchableOpacity>
-            <Text>Recovery Code: Use this code to recover your Account</Text>
-            <Text>(Keep it Safe)</Text>
-            <TouchableOpacity style={Styles.NextBox}>
-                <Text style={{color:'white'}}>Code</Text>
+            <Text style={{color:'white',marginTop:20}}>Recovery Code: Use this code to recover your Account</Text>
+            <Text style={{color:'white',fontStyle:'italic'}}>(Keep it Safe)</Text>
+            <TouchableOpacity style={Styles.CodeBox}>
+                <Text style={{color:'white'}}>Code </Text>
                 <TouchableOpacity style={{height:25,borderWidth:0.6,marginLeft:7,marginTop:-4,borderColor:'black'}}/>
-                <TextInput style={Styles.NextInput} secureTextEntry={true} onChangeText={(e)=>setcode(e)}/>
+                <TextInput style={Styles.CodeInput} secureTextEntry={true} onChangeText={(e)=>setcode(e)}/>
             </TouchableOpacity>
             <TouchableOpacity style={Styles.Register} onPress={()=>RegisterAttempt()}>
-                {registerLoad == false ? <Text style={Styles.RegisterText}>Login</Text> : <ActivityIndicator size='small' color='#5810d8'/>}
+                {registerLoad == false ? <Text style={Styles.RegisterText}>Register</Text> : <ActivityIndicator size='small' color='#5810d8'/>}
             </TouchableOpacity>
         </View>
     )
@@ -88,10 +89,16 @@ const Styles = StyleSheet.create({
         height:'100%',
         width:'100%',
         justifyContent:'center',
-        alignItems:'center'
+        alignItems:'center',
+        backgroundColor:'#5810d8',
+    },
+    Heading:{
+        fontSize:25,
+        color:'white',
+        marginTop:70,
     },
     FirstBox:{
-        marginTop:330,
+        marginTop:70,
         borderRadius:25,
         borderColor:'black',
         borderWidth:0.8,
@@ -119,6 +126,24 @@ const Styles = StyleSheet.create({
         padding:13
     },
     NextInput:{
+        paddingLeft:1,
+        paddingRight:1,
+        width:190,
+        height:20,
+        marginLeft:10,
+        color:'white'
+    },
+    CodeBox:{
+        marginTop:5,
+        borderRadius:25,
+        borderColor:'black',
+        borderWidth:0.8,
+        width:280,
+        height:45,
+        flexDirection:'row',
+        padding:13
+    },
+    CodeInput:{
         paddingLeft:1,
         paddingRight:1,
         width:190,

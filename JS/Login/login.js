@@ -2,7 +2,7 @@ import React,{ useState } from 'react'
 import { View, Text, StyleSheet, Image, ActivityIndicator } from 'react-native'
 import { TouchableOpacity, TextInput } from 'react-native-gesture-handler'
 import { useSelector, useDispatch } from 'react-redux'
-import loginAction from '../../actions/login/login'
+import { login } from '../../actions/login/login'
 import resetAction from '../../actions/login/reslogin'
 import Dialog from "react-native-dialog";
 
@@ -19,14 +19,14 @@ const Login = (props) => {
     const dispatch = useDispatch()
 
     LoginAttempt = () => {
-        // if(email == '' || pass == ''){
-        //     if(email == '') alert('Email field is empty')
-        //     else if(pass == '') alert('Password field is empty')
-        // }else{
-        //     settries(tries+1)
-        //     setloginLoad(true)
-        //     dispatch(loginAction(email,pass,'App'))
-        // }
+        if(email == '' || pass == ''){
+            if(email == '') alert('Email field is empty')
+            else if(pass == '') alert('Password field is empty')
+        }else{
+            settries(tries+1)
+            setloginLoad(true)
+            dispatch(login(email,pass))
+        }
         settries(tries+1)
     }
 
@@ -68,7 +68,12 @@ const Login = (props) => {
                 <Dialog.Description>Detected Multiple Attempts, Would you like to recover your account?</Dialog.Description>
                 <Dialog.Button label='Cancel' onPress={()=>cancelRecovery()}/>
                 <Dialog.Button label='Recover' onPress={()=>acceptRecovery()}/>
-            </Dialog.Container> : <Dialog.Container visible={false}/>}
+            </Dialog.Container> : <Dialog.Container visible={false}>
+                <Dialog.Title>Account Recovery?</Dialog.Title>
+                <Dialog.Description>Detected Multiple Attempts, Would you like to recover your account?</Dialog.Description>
+                <Dialog.Button label='Cancel' onPress={()=>cancelRecovery()}/>
+                <Dialog.Button label='Recover' onPress={()=>acceptRecovery()}/>
+            </Dialog.Container>}
             <Text style={Styles.Heading}>Welcome to New App</Text>
             <Image source={{uri:'https://images.app.goo.gl/REU5wKvQuZMF4YGL6'}}/>
             <TouchableOpacity style={Styles.EmailBox}>
@@ -87,6 +92,7 @@ const Login = (props) => {
             <TouchableOpacity style={Styles.Google} onPress={()=>{GoogleAttempt()}}>
                 {googleLoad == false ? <Text style={Styles.GoogleText}>Login with Google</Text> : <ActivityIndicator size='small' color='#5810d8'/>}
             </TouchableOpacity>
+            <Text style={{marginTop:30,marginBottom:30,color:'white'}} onPress={()=>props.navigation.navigate('Register')}>Register</Text>
         </View>
     )
 }
