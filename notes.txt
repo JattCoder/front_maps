@@ -1,1 +1,2 @@
 Current Position ==> Getting response from rails to check email for temporary PIN code but failing to display dialog
+Mailer setup ==> email not received
