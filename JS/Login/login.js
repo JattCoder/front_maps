@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Image, ActivityIndicator } from 'react-native'
 import { TouchableOpacity, TextInput } from 'react-native-gesture-handler'
 import { useSelector, useDispatch } from 'react-redux'
 import { login } from '../../actions/login/login'
-import resetAction from '../../actions/login/reslogin'
+import { reslogin } from '../../actions/login/reslogin'
 import Dialog from "react-native-dialog";
 
 const Login = (props) => {
@@ -45,18 +45,18 @@ const Login = (props) => {
         props.navigation.navigate('Recover')
     }
 
+    register = () => {
+        dispatch(reslogin())
+        props.navigation.navigate('Register')
+    }
+
     useSelector((state)=>{
         if(state.login.result == false && state.login.message != ''){
             alert(state.login.message)
-            dispatch(resetAction())
+            dispatch(reslogin())
             setloginLoad(false)
             setgoogleLoad(false)
         }else if(state.login.result == true){
-            if(state.login.message.method == 'Login'){
-                settries(0)
-            }
-            setloginLoad(false)
-            setgoogleLoad(false)
             props.navigation.navigate('Home')
         }
     })
@@ -92,7 +92,7 @@ const Login = (props) => {
             <TouchableOpacity style={Styles.Google} onPress={()=>{GoogleAttempt()}}>
                 {googleLoad == false ? <Text style={Styles.GoogleText}>Login with Google</Text> : <ActivityIndicator size='small' color='#5810d8'/>}
             </TouchableOpacity>
-            <Text style={{marginTop:30,marginBottom:30,color:'white'}} onPress={()=>props.navigation.navigate('Register')}>Register</Text>
+            <Text style={{marginTop:30,marginBottom:30,color:'white'}} onPress={()=>register()}>Register</Text>
         </View>
     )
 }

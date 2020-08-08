@@ -1,6 +1,5 @@
 import { LOGIN } from '../actions/login/login'
 import { LOGIN_RES } from '../actions/login/reslogin'
-import { PASSCHANGE } from '../actions/recover/passchange'
 
 let initialState = {
     code: '',
@@ -8,16 +7,14 @@ let initialState = {
     result: false
 }
 
-const reducer = (state = {}, action) => {
+const reducer = (login = initialState, action) => {
     switch(action.type){
         case LOGIN:
-            return { ...state, login: action.response }
+            return { ...login, ...action.payload }
         case LOGIN_RES:
-            return { ...state, login: action.response }
-        case PASSCHANGE:
-            return { ...state, login: action.response }
+            return { ...login, ...action.payload }
         default:
-            return state
+            return login
     }
 }
 

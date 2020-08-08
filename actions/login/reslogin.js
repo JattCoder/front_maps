@@ -6,6 +6,6 @@ const initialState = {
     result: false
 }
 
-export const loginres = () => {
-    return async (dispatch) => {dispatch({type: LOGIN_RES, response: initialState})}
+export const reslogin = () => {
+    return async (dispatch) => {dispatch({type: LOGIN_RES, payload: initialState})}
 }

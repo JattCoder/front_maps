@@ -22,7 +22,7 @@ const App = () => {
           <Stack.Screen name="Recover" component={Recover} />
           <Stack.Screen name="PassReset" component={PassReset} />
           <Stack.Screen name="Register" component={Register} />
-          <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen name="Home" component={Home} options={{ gestureEnabled: false }}/>
         </Stack.Navigator>
       }</NavigationContainer>
     </Provider>

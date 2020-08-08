@@ -1,4 +1,5 @@
 import { REGISTER } from '../actions/register/register'
+import { REGISTER_RES } from '../actions/register/resregister'
 
 let initialState = {
     code: '',
@@ -6,12 +7,14 @@ let initialState = {
     result: false
 }
 
-const register = (state = {}, action) => {
+const register = (register = initialState, action) => {
     switch(action.type){
         case REGISTER:
-            return { ...state, register: action.response }
+            return { ...register, ...action.response }
+        case REGISTER_RES:
+            return { ...register, ...action.response }
         default:
-            return state
+            return register
     }
 }
 

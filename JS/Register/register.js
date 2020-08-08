@@ -1,9 +1,10 @@
 import React,{ useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { register } from '../../actions/register/register'
+import { resregister } from '../../actions/register/resregister'
 import { View, StyleSheet, TouchableOpacity, Text, TextInput, ActivityIndicator } from 'react-native'
 
-const Register = () => {
+const Register = (props) => {
 
     const[name,setname] = useState('')
     const[email,setemail] = useState('')
@@ -32,12 +33,14 @@ const Register = () => {
     }
 
     useSelector((state)=>{
-        // if(state.login.result == false && state.login.message != ''){
-        //     alert(state.login.message)
-        //     setregisterLoad(false)
-        // }else if(state.login.result == true){
-        //     setregisterLoad(false)
-        // }
+        if(state.register.result == false && state.register.message != ''){
+            alert(state.register.message)
+            //dispatch(resregister())
+            setregisterLoad(false)
+        }else if(state.register.result == true){
+            //setregisterLoad(false)
+            props.navigation.navigate('Home')
+        }
     })
 
     return(

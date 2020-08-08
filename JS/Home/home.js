@@ -4,7 +4,7 @@ import { View, Text } from 'react-native'
 const Home = (props) => {
     return(
         <View>
-            <Text>Hello {props.route.params.name}</Text>
+            <Text>Hello Sir</Text>
         </View>
     )
 }
