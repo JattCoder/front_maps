@@ -1,6 +1,7 @@
 import React,{useState} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { recoverAction } from '../../actions/recover/account'
+import { recover } from '../../actions/recover/account'
+import { resaccount } from '../../actions/recover/resaccount'
 import { pinAction } from '../../actions/recover/pin'
 import Dialog from "react-native-dialog";
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, ActivityIndicator } from 'react-native'
@@ -22,19 +23,18 @@ const Recover = (props) => {
             else if(pin == '') alert('PIN field is empty!')
         }else{
             setstartRecovery(true)
-            dispatch(recoverAction(name,email,pin))
+            dispatch(recover(name,email,pin))
         }
     }
 
     useSelector((state)=>{
         if(state.recovery.result == false && state.recovery.message != ''){
             alert(state.recovery.message)
-            setstartRecovery(false)
-            setforgot(false)
-            setrcode(false)
+            if(startRecovery == true) setstartRecovery(false)
+            if(forgot == true) setforgot(false)
+            if(rcode == true) setrcode(false)
+            dispatch(resaccount())
         }else if(state.recovery.result == true){
-            setstartRecovery(false)
-            setforgot(false)
             if(state.recovery.message == 'Change Password'){
                 props.navigation.navigate('PassReset',{email: email})
             }else if(state.recovery.message == 'Check Your Email'){

@@ -1,6 +1,5 @@
-import { ACCOUNT } from '../actions/recover/account'
-import { ACCOUNT_RES } from '../actions/recover/resaccount'
-import { PIN } from '../actions/recover/pin'
+import { PASSCHANGE } from '../actions/passchange/passchange'
+import { PASS_RES } from '../actions/passchange/respasschange'
 
 let initialState = {
     code: '',
@@ -10,11 +9,9 @@ let initialState = {
 
 const reducer = (state = initialState, action) => {
     switch(action.type){
-        case ACCOUNT:
+        case PASSCHANGE:
             return { ...state, ...action.response }
-        case ACCOUNT_RES:
-            return { ...state, ...action.response }
-        case PIN:
+        case PASS_RES:
             return { ...state, ...action.response }
         default:
             return state

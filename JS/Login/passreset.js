@@ -1,7 +1,8 @@
 import React,{ useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { changeAction } from '../../actions/recover/passchange'
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
+import { passchange } from '../../actions/passchange/passchange'
+import { respass } from '../../actions/passchange/respasschange'
+import { View, Text, TouchableOpacity, StyleSheet, TextInput, ActivityIndicator } from 'react-native'
 
 const Passreset = (props) => {
     const[pass,setpass] = useState('')
@@ -12,20 +13,23 @@ const Passreset = (props) => {
     changePass = () => {
         if(pass != '' && pass == rpass && pass.length >= 6){
             setchange(true)
-            dispatch(changeAction(props.route.params.email,pass))
+            dispatch(passchange(props.route.params.email,pass))
         }
     }
 
     useSelector((state)=>{
-        if(state.login.result == false){
-            alert(state.login.message)
+        if(state.recovered.result == false && state.recovered.message != ''){
+            alert(state.recovered.message)
+            dispatch(respass())
+        }else if(state.recovered.result == true){
+            props.navigation.navigate('Home')
         }
     })
 
     return(
         <View style={Styles.Page}>
             <Text style={Styles.Heading}>Password Change</Text>
-            <Text>{props.route.params.email}</Text>
+            <Text style={{color:'white',marginTop:10}}>{props.route.params.email}</Text>
             <TouchableOpacity style={Styles.PassBox}>
                 <Text style={{color:'white'}}>Pass </Text>
                 <TouchableOpacity style={{height:25,borderWidth:0.6,marginLeft:7,marginTop:-4,borderColor:'black'}}/>
@@ -50,7 +54,8 @@ const Styles = StyleSheet.create({
         height:'100%',
         width:'100%',
         justifyContent:'center',
-        alignItems:'center'
+        alignItems:'center',
+        backgroundColor:'#5810d8'
     },
     Heading:{
         fontSize:25,
