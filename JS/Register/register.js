@@ -39,7 +39,9 @@ const Register = (props) => {
             setregisterLoad(false)
         }else if(state.register.result == true){
             //setregisterLoad(false)
-            props.navigation.navigate('Home')
+            user = state.register.message
+            dispatch(currentuser(user.id,user.name,user.email,user.phone,user.photo,'Not Confirmed'))
+            props.navigation.navigate('ConfirmLogin')
         }
     })
 
