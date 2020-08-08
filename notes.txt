@@ -1,2 +1,10 @@
 Current Position ==> Getting response from rails to check email for temporary PIN code but failing to display dialog
 Mailer setup ==> email not received
+
+
+
+
+
+Before Production... 
+1. change app name in backend for mailer
+2. change fetch links

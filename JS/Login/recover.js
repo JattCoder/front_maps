@@ -59,7 +59,7 @@ const Recover = (props) => {
             {rcode == true ? <Dialog.Container visible={true}>
                 <Dialog.Title>Check Your Email</Dialog.Title>
                 <Dialog.Description>Enter Code Received in Email</Dialog.Description>
-                <Dialog.TextInput onChangeText={(e)=>setecode(e)}/>
+                <Dialog.Input onChangeText={(e)=>setecode(e)}/>
                 <Dialog.Button label='Cancel' onPress={()=>{alert('cancel')}}/>
                 <Dialog.Button label='Recover' onPress={()=>{alert('recover')}}/>
             </Dialog.Container> : <Dialog.Container visible={false}/>}
