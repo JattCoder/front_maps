@@ -2,7 +2,7 @@ import React,{useState} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { recover } from '../../actions/recover/account'
 import { resaccount } from '../../actions/recover/resaccount'
-import { pinAction } from '../../actions/recover/pin'
+import { recoverpin } from '../../actions/recover/pin'
 import Dialog from "react-native-dialog";
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, ActivityIndicator } from 'react-native'
 
@@ -38,8 +38,8 @@ const Recover = (props) => {
             if(state.recovery.message == 'Change Password'){
                 props.navigation.navigate('PassReset',{email: email})
             }else if(state.recovery.message == 'Check Your Email'){
-                setforgot(false)
-                setrcode(true)
+                if(forgot == true) setforgot(false)
+                if(rcode == false) setrcode(true)
             }
         }
     })
@@ -50,7 +50,7 @@ const Recover = (props) => {
             else if(email == '') alert('Email field is empty!')
         }else{
             setforgot(true)
-            dispatch(pinAction(name,email))
+            dispatch(recoverpin(name,email))
         }
     }
 
@@ -61,7 +61,6 @@ const Recover = (props) => {
                 <Dialog.Description>Enter Code Received in Email</Dialog.Description>
                 <Dialog.TextInput onChangeText={(e)=>setecode(e)}/>
                 <Dialog.Button label='Cancel' onPress={()=>{alert('cancel')}}/>
-                <Dialog.Button label='Re-send' onPress={()=> dispatch(pinAction())}/>
                 <Dialog.Button label='Recover' onPress={()=>{alert('recover')}}/>
             </Dialog.Container> : <Dialog.Container visible={false}/>}
             <Text style={{color:'white',fontSize:25}}>Account Recovery</Text>
