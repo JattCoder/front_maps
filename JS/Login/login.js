@@ -4,7 +4,6 @@ import { TouchableOpacity, TextInput } from 'react-native-gesture-handler'
 import { useSelector, useDispatch } from 'react-redux'
 import { login } from '../../actions/login/login'
 import { reslogin } from '../../actions/login/reslogin'
-import { currentuser } from '../../actions/currentuser/currentuser'
 import Dialog from "react-native-dialog";
 
 const Login = (props) => {
@@ -34,7 +33,7 @@ const Login = (props) => {
     GoogleAttempt = () => {
         setTimeout(()=>setgoogleLoad(false),5000)
         setgoogleLoad(true)
-        dispatch(login(email,pass,'Google'))
+        //dispatch(login(email,pass,'Google'))
     }
 
     cancelRecovery = () => {
@@ -59,8 +58,7 @@ const Login = (props) => {
             setgoogleLoad(false)
         }else if(state.login.result == true){
             user = state.login.message
-            dispatch(currentuser(user.id,user.name,user.email,user.phone,user.photo,'Not Confirmed'))
-            props.navigation.navigate('ConfirmLogin')
+            props.navigation.navigate('ConfirmLogin',{user: user})
         }
     })
 

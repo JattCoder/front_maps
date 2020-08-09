@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { recover } from '../../actions/recover/account'
 import { resaccount } from '../../actions/recover/resaccount'
 import { recoverpin } from '../../actions/recover/pin'
+import { confirmpin } from '../../actions/recover/confirmpin'
 import Dialog from "react-native-dialog";
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, ActivityIndicator } from 'react-native'
 
@@ -32,10 +33,10 @@ const Recover = (props) => {
             alert(state.recovery.message)
             if(startRecovery == true) setstartRecovery(false)
             if(forgot == true) setforgot(false)
-            if(rcode == true) setrcode(false)
             dispatch(resaccount())
         }else if(state.recovery.result == true){
             if(state.recovery.message == 'Change Password'){
+                if(rcode == true) setrcode(false)
                 props.navigation.navigate('PassReset',{email: email})
             }else if(state.recovery.message == 'Check Your Email'){
                 if(forgot == true) setforgot(false)
@@ -59,10 +60,17 @@ const Recover = (props) => {
             {rcode == true ? <Dialog.Container visible={true}>
                 <Dialog.Title>Check Your Email</Dialog.Title>
                 <Dialog.Description>Enter Code Received in Email</Dialog.Description>
+                <Dialog.Input textAlign={'center'} onChangeText={(e)=>setecode(e)}/>
+                <Dialog.Button label='Cancel' onPress={()=>{alert('cancel')}}/>
+                <Dialog.Button label='ReSend' onPress={()=>forgotPIN()} />
+                <Dialog.Button label='Recover' onPress={()=>dispatch(confirmpin(email,ecode))}/>
+            </Dialog.Container> : <Dialog.Container visible={false}>
+                <Dialog.Title>Check Your Email</Dialog.Title>
+                <Dialog.Description>Enter Code Received in Email</Dialog.Description>
                 <Dialog.Input onChangeText={(e)=>setecode(e)}/>
                 <Dialog.Button label='Cancel' onPress={()=>{alert('cancel')}}/>
-                <Dialog.Button label='Recover' onPress={()=>{alert('recover')}}/>
-            </Dialog.Container> : <Dialog.Container visible={false}/>}
+                <Dialog.Button label='Recover' onPress={()=>dispatch(confirmpin(email,ecode))}/>
+            </Dialog.Container>}
             <Text style={{color:'white',fontSize:25}}>Account Recovery</Text>
             <TouchableOpacity style={Styles.NameBox}>
                 <Text style={{color:'white'}}>Name</Text>

@@ -2,9 +2,6 @@ export const PIN = 'PIN'
 
 export const recoverpin = (name,email) => {
     return async (dispatch) => {
-        var url = new URL("http://localhost:3000/recover/pin"),
-            params = {name,email}
-            Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
         return await fetch('http://localhost:3000/recover/pin',{
             method: 'POST',
             headers: {

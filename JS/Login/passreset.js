@@ -23,8 +23,7 @@ const Passreset = (props) => {
             dispatch(respass())
         }else if(state.recovered.result == true){
             user = state.recovered.message
-            dispatch(currentuser(user.id,user.name,user.email,user.phone,user.photo,'Not Confirmed'))
-            props.navigation.navigate('ConfirmLogin')
+            props.navigation.navigate('ConfirmLogin',{user: user})
         }
     })
 

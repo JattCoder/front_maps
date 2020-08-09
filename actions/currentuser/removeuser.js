@@ -10,7 +10,7 @@ let initialState = {
 }
 
 export const removeuser = () => {
-    return async (dispatch) => {
-        return await {dispatch({type: REMOVE_USER, payload: initialState})}
+    return (dispatch) => {
+        return dispatch({type: REMOVE_USER, payload: initialState})
     }
 }

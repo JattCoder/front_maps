@@ -35,13 +35,10 @@ const Register = (props) => {
     useSelector((state)=>{
         if(state.register.result == false && state.register.message != ''){
             alert(state.register.message)
-            //dispatch(resregister())
             setregisterLoad(false)
         }else if(state.register.result == true){
-            //setregisterLoad(false)
             user = state.register.message
-            dispatch(currentuser(user.id,user.name,user.email,user.phone,user.photo,'Not Confirmed'))
-            props.navigation.navigate('ConfirmLogin')
+            props.navigation.navigate('ConfirmLogin', {user: user})
         }
     })
 
