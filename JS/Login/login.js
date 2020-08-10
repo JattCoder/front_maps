@@ -58,7 +58,10 @@ const Login = (props) => {
             setgoogleLoad(false)
         }else if(state.login.result == true){
             user = state.login.message
-            props.navigation.navigate('ConfirmLogin',{user: user})
+            if (user.confirmed == false) props.navigation.navigate('ConfirmEmail',{user: user})
+            else{
+                //make a req to backend and 
+            }
         }
     })
 
@@ -99,7 +102,7 @@ const Login = (props) => {
 }
 
 export default Login
-
+//lets create a new file for style and put it there so page looks short
 const Styles = StyleSheet.create({
     Page:{
         height:'100%',

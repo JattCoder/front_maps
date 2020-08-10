@@ -8,7 +8,7 @@ import Login from './JS/Login/login'
 import Recover from './JS/Login/recover'
 import PassReset from './JS/Login/passreset'
 import Register from './JS/Register/register'
-import ConfirmLogin from './JS/Configure/login'
+import Email from './JS/Confirm/email'
 import Home from './JS/Home/home'
 
 const Stack = createStackNavigator()
@@ -23,7 +23,7 @@ const App = () => {
           <Stack.Screen name="Recover" component={Recover} />
           <Stack.Screen name="PassReset" component={PassReset} />
           <Stack.Screen name="Register" component={Register} />
-          <Stack.Screen name="ConfirmLogin" component={ConfirmLogin} options={{ gestureEnabled: false}}/>
+          <Stack.Screen name="ConfirmEmail" component={Email} options={{ gestureEnabled: false}}/>
           <Stack.Screen name="Home" component={Home} options={{ gestureEnabled: false }}/>
         </Stack.Navigator>
       }</NavigationContainer>
