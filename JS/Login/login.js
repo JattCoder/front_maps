@@ -4,6 +4,7 @@ import { TouchableOpacity, TextInput } from 'react-native-gesture-handler'
 import { useSelector, useDispatch } from 'react-redux'
 import { login } from '../../actions/login/login'
 import { reslogin } from '../../actions/login/reslogin'
+import { currentuser } from '../../actions/currentuser/currentuser'
 import Dialog from "react-native-dialog";
 
 const Login = (props) => {
@@ -60,8 +61,11 @@ const Login = (props) => {
             user = state.login.message
             if (user.confirmed == false) props.navigation.navigate('ConfirmEmail',{user: user})
             else{
+                dispatch(currentuser(user))
                 //make a req to backend and 
             }
+        }else if(state.currentuser.email != ''){
+            props.navigation.navigate('Home')
         }
     })
 

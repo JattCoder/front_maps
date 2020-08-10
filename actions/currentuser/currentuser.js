@@ -1,16 +1,16 @@
 export const CURRENT_USER = 'CURRENT_USER'
 
-export const currentuser = (id,name,email,phone,photo,confirmation) => {
+export const currentuser = (user) => {
     return (dispatch) => {
         user = {
-            id: id,
-            name: name,
-            email: email,
-            phone: phone,
-            photo: photo,
-            method: method,
-            confirmation: confirmation,
-            membertype: member
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            phone: user.phone,
+            photo: user.photo,
+            method: user.method,
+            confirmed: user.confirmed,
+            membertype: user.member
 
         }
         return dispatch({type:CURRENT_USER,payload:user})
