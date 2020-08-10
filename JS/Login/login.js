@@ -28,10 +28,12 @@ const Login = (props) => {
             else if(pass == '') alert('Password field is empty')
         }else{
             settries(tries+1)
-            setloginLoad(true)
-            DeviceInfo.getMacAddress().then(mac => {
-                dispatch(login(email,pass,'App',mac))
-            });
+            if(loginLoad != true){
+                setloginLoad(true)
+                DeviceInfo.getMacAddress().then(mac => {
+                    dispatch(login(email,pass,'App',mac))
+                });
+            }
         }
         settries(tries+1)
     }
@@ -73,7 +75,6 @@ const Login = (props) => {
             if (user.confirmed == false) props.navigation.navigate('ConfirmEmail',{user: user})
             else{
                 dispatch(currentuser(user))
-                //make a req to backend and 
             }
         }
     })

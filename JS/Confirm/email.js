@@ -10,36 +10,34 @@ const Login = (props) => {
     const[confirmbox,setconfirmbox] = useState(false)
     const[profileconfirm,setprofileconfirm] = useState(false)
     const[emailconfirm,setemailconfirm] = useState('')
+    const[code,setcode] = useState('')
+    const[submit,setsubmit] = useState(false)
     const dispatch = useDispatch()
 
-    useEffect(()=>{
-        //check if user is confirmed or no
-        if(props.route.params.user.confirmed == false){
-            //user is not confirmed
-            //will make a request to backend to send confirmation email to user
-            setTimeout(()=>{
-                //after 1 sec, dialog will appear for samplebox
-                //with in 1 sec, will play a loading bar 
-                setconfirmbox(true)
-            },1000)
+    submit = () => {
+        if(submit != true){
+            setsubmit(true)
+            dispatch()
         }
-    })
-
-    deviceInfo = () => {
-        DeviceInfo.getMacAddress().then(mac => {
-            alert(mac)
-        });
     }
-
     
     return(
         <View style={Styles.Page}>
             <Text style={{color:'white',fontSize:30}}>Welcome</Text>
-            <Text style={{color:'white',fontSize:20}}>Hello {props.route.params.user.name}</Text>
-            <Text style={{color:'white',fontSize:20}}>This is your first login to FunApp.</Text>
-            <Text style={{color:'white',fontSize:20}}>Before we start the fun, lets confirm your email.</Text>
-            <Text style={{color:'white',fontSize:20}}>I send you an email with temporary code</Text>
-            <Text style={{color:'white',fontSize:20}}>Please enter confirmation code in box below</Text>
+            <Text style={{color:'white',fontSize:20,marginTop:10}}>{props.route.params.user.email}</Text>
+            <Text style={{color:'white',fontSize:20,marginTop:10}}>Lets Confirm your Email</Text>
+            <Text style={{color:'white',fontSize:20,marginTop:10}}>Just emailed you new Temporary Confirmation Code</Text>
+            <TouchableOpacity style={Styles.CodeBox}>
+                <Text style={{color:'white'}}>Pass </Text>
+                <TouchableOpacity style={{height:25,borderWidth:0.6,marginLeft:7,marginTop:-4,borderColor:'black'}}/>
+                <TextInput style={Styles.CodeInput} onChangeText={(e)=>setcode(e)}/>
+            </TouchableOpacity>
+            <TouchableOpacity style={Styles.Submit} onPress={()=>submit()}>
+                {submit == false ? <Text style={Styles.GoogleText}>Confirm</Text> : <ActivityIndicator size='small' color='#5810d8'/>}
+            </TouchableOpacity>
+            <TouchableOpacity style={Styles.Cancel} onPress={()=>{props.navigation.navigate('Login')}}>
+                <Text style={Styles.GoogleText}>Cancel</Text>
+            </TouchableOpacity>
         </View>
     )
 }
@@ -53,5 +51,45 @@ const Styles = StyleSheet.create({
         justifyContent:'center',
         alignItems:'center',
         backgroundColor:'#5810d8'
-    }
+    },
+    CodeBox:{
+        marginTop:20,
+        borderRadius:25,
+        borderColor:'black',
+        borderWidth:0.8,
+        width:280,
+        height:45,
+        flexDirection:'row',
+        padding:13
+    },
+    CodeInput:{
+        paddingLeft:1,
+        paddingRight:1,
+        width:190,
+        height:20,
+        marginLeft:10,
+        color:'white'
+    },
+    Submit:{
+        marginTop:60,
+        borderRadius:25,
+        backgroundColor:'white',
+        height:45,
+        bottom:0,
+        justifyContent:'center',
+        alignItems:'center',
+        width:250,
+        flexDirection:'row'
+    },
+    Cancel:{
+        marginTop:60,
+        borderRadius:25,
+        backgroundColor:'white',
+        height:45,
+        bottom:0,
+        justifyContent:'center',
+        alignItems:'center',
+        width:250,
+        flexDirection:'row'
+    },
 })

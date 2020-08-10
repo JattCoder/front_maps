@@ -12,8 +12,12 @@ const Passreset = (props) => {
 
     changePass = () => {
         if(pass != '' && pass == rpass && pass.length >= 6){
-            setchange(true)
-            dispatch(passchange(props.route.params.email,pass))
+            if(change != true){
+                setchange(true)
+                dispatch(passchange(props.route.params.email,pass))
+            }else{
+                alert("Apologize for Inconvenience, Still Updating your Password")
+            }
         }
     }
 
@@ -23,7 +27,8 @@ const Passreset = (props) => {
             dispatch(respass())
         }else if(state.recovered.result == true){
             user = state.recovered.message
-            props.navigation.navigate('ConfirmLogin',{user: user})
+            if(user.confirmed == false) props.navigation.navigate('ConfirmLogin',{user: user})
+            else props.navigation.navigate('Home')
         }
     })
 
