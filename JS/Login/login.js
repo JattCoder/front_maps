@@ -6,11 +6,14 @@ import { login } from '../../actions/login/login'
 import { reslogin } from '../../actions/login/reslogin'
 import { currentuser } from '../../actions/currentuser/currentuser'
 import Dialog from "react-native-dialog";
+import DeviceInfo from 'react-native-device-info';
+
 
 const Login = (props) => {
     const[loginLoad,setloginLoad] = useState(false)
     const[googleLoad,setgoogleLoad] = useState(false)
     const[tries,settries] = useState(0)
+    const[message,setmessage] = useState('Detected Multiple Attempts, Would you like to recover your account?')
     const[recoveryinput,setrinput] = useState('')
     const[recovery,setrecovery] = useState(false)
     const[recover,setrecover] = useState(false)
@@ -26,7 +29,9 @@ const Login = (props) => {
         }else{
             settries(tries+1)
             setloginLoad(true)
-            dispatch(login(email,pass,'App'))
+            DeviceInfo.getMacAddress().then(mac => {
+                dispatch(login(email,pass,'App',mac))
+            });
         }
         settries(tries+1)
     }
@@ -52,11 +57,17 @@ const Login = (props) => {
     }
 
     useSelector((state)=>{
+        if(state.currentuser.email != ''){
+            props.navigation.navigate('Home')
+        }
         if(state.login.result == false && state.login.message != ''){
-            alert(state.login.message)
+            if(state.login.message == 'Already loggedin, on another Device') {
+                setmessage('Someone could be using your Account. Would you like to Recover it?')
+                settries(4)
+            }else alert(state.login.message)
             dispatch(reslogin())
-            setloginLoad(false)
-            setgoogleLoad(false)
+            if(loginLoad == true) setloginLoad(false)
+            if(googleLoad == true) setgoogleLoad(false)
         }else if(state.login.result == true){
             user = state.login.message
             if (user.confirmed == false) props.navigation.navigate('ConfirmEmail',{user: user})
@@ -64,8 +75,6 @@ const Login = (props) => {
                 dispatch(currentuser(user))
                 //make a req to backend and 
             }
-        }else if(state.currentuser.email != ''){
-            props.navigation.navigate('Home')
         }
     })
 
@@ -73,7 +82,7 @@ const Login = (props) => {
         <View style={Styles.Page}>
             {tries >= 4 ? <Dialog.Container visible={true}>
                 <Dialog.Title>Account Recovery?</Dialog.Title>
-                <Dialog.Description>Detected Multiple Attempts, Would you like to recover your account?</Dialog.Description>
+                <Dialog.Description>{message}</Dialog.Description>
                 <Dialog.Button label='Cancel' onPress={()=>cancelRecovery()}/>
                 <Dialog.Button label='Recover' onPress={()=>acceptRecovery()}/>
             </Dialog.Container> : <Dialog.Container visible={false}>

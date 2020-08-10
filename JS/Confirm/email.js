@@ -3,6 +3,7 @@ import { View, StyleSheet,Text,TouchableOpacity,Image } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { currentuser } from '../../actions/currentuser/currentuser'
 import DeviceInfo from 'react-native-device-info';
+import Dialog from "react-native-dialog";
 
 const Login = (props) => {
 
@@ -33,23 +34,12 @@ const Login = (props) => {
     
     return(
         <View style={Styles.Page}>
-             {confirmbox == true ? <Dialog.Container visible={true}>
-                <Dialog.Title>Email Not Confirmed!</Dialog.Title>
-                <Dialog.Description>Please look for code in your email to confirm your email</Dialog.Description>
-                <Dialog.Input onChangeText={e=>setemailconfirm(e)}/>
-                <Dialog.Button label='Cancel' onPress={()=>alert('dont want to cofirm, lets head back to login')}/>
-                <Dialog.Button label='Confirm' onPress={()=>alert('Confirm my email')}/>
-            </Dialog.Container> : <Text/>}
-            <TouchableOpacity>
-                {props.route.params.user.photo == '' ? <Text>Build Image</Text> : <Image />}
-                <TouchableOpacity>
-                <Text>{props.route.params.user.name}</Text>
-                <Text>{props.route.params.user.email}</Text>
-                </TouchableOpacity>
-            </TouchableOpacity>
-            <TouchableOpacity>
-                {}
-            </TouchableOpacity>
+            <Text style={{color:'white',fontSize:30}}>Welcome</Text>
+            <Text style={{color:'white',fontSize:20}}>Hello {props.route.params.user.name}</Text>
+            <Text style={{color:'white',fontSize:20}}>This is your first login to FunApp.</Text>
+            <Text style={{color:'white',fontSize:20}}>Before we start the fun, lets confirm your email.</Text>
+            <Text style={{color:'white',fontSize:20}}>I send you an email with temporary code</Text>
+            <Text style={{color:'white',fontSize:20}}>Please enter confirmation code in box below</Text>
         </View>
     )
 }

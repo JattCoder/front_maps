@@ -6,6 +6,6 @@ const initialState = {
     result: false
 }
 
-export const reslogin = () => {
+export const resregister = () => {
     return async (dispatch) => {dispatch({type: REGISTER_RES, response: initialState})}
 }

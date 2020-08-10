@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { register } from '../../actions/register/register'
 import { resregister } from '../../actions/register/resregister'
 import { View, StyleSheet, TouchableOpacity, Text, TextInput, ActivityIndicator } from 'react-native'
+import DeviceInfo from 'react-native-device-info';
 
 const Register = (props) => {
 
@@ -28,14 +29,22 @@ const Register = (props) => {
         else if(pass.length <= 5) alert('Password too short')
         else{
             setregisterLoad(true)
-            dispatch(register(name,email,phone,photo,pass,code,'App'))
+            DeviceInfo.getMacAddress().then(mac => {
+                dispatch(register(name,email,phone,photo,pass,code,'App',mac))
+            });
         }
     }
 
     useSelector((state)=>{
         if(state.register.result == false && state.register.message != ''){
             alert(state.register.message)
-            setregisterLoad(false)
+            if(state.register.message == 'Account already Exists'){
+                setTimeout(()=>{
+                    props.navigation.navigate('Login')
+                },3000)
+            }
+            dispatch(resregister())
+            if(registerLoad == true) setregisterLoad(false)
         }else if(state.register.result == true){
             user = state.register.message
             props.navigation.navigate('ConfirmLogin', {user: user})
