@@ -13,12 +13,8 @@ const Login = (props) => {
     const[googleLoad,setgoogleLoad] = useState(false)
     const[tries,settries] = useState(0)
     const[message,setmessage] = useState('Detected Multiple Attempts, Would you like to recover your account?')
-    const[recoveryinput,setrinput] = useState('')
-    const[recovery,setrecovery] = useState(false)
-    const[recover,setrecover] = useState(false)
     const[email,setemail] = useState('')
     const[pass,setpass] = useState('')
-    const[forgot,setforgot] = useState(true)
     const dispatch = useDispatch()
 
     LoginAttempt = () => {
@@ -37,7 +33,10 @@ const Login = (props) => {
     }
 
     GoogleAttempt = () => {
-        setTimeout(()=>setgoogleLoad(false),5000)
+        setTimeout(()=>{
+            setgoogleLoad(false)
+            alert('Logging in with google')
+        },5000)
         setgoogleLoad(true)
         //dispatch(login(email,pass,'Google'))
     }
@@ -70,7 +69,7 @@ const Login = (props) => {
                 dispatch(reslogin())
             }
             else{
-                props.navigation.navigate('Home')
+                props.navigation.navigate('Home',{user: user})
             }
         }
         if(loginLoad == true) setloginLoad(false)
