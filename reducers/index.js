@@ -3,10 +3,10 @@ import login from './login'
 import register from './register'
 import recovery from './recover'
 import recovered from './recovered'
-import currentuser from './currentuser'
+import confirmacc from './confirmacc'
 
 const rootreducers =  combineReducers({
-  login,recovery,register,recovered,currentuser
+  login,recovery,register,recovered,confirmacc
 })
 
 export default rootreducers

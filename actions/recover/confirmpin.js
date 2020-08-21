@@ -7,7 +7,8 @@ export const confirmpin = (email,code) => {
             Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
         return await fetch(url)
         .then(res => {return res.json()})
-        .then(data => {dispatch({type: CONFIRM_PIN, response: data})})
+        .then(data => {
+            dispatch({type: CONFIRM_PIN, response: data})})
         .catch(err => console.log(err))
     }
 }

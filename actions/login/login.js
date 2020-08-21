@@ -8,6 +8,12 @@ export const login = (email,pass,method,mac) => {
         return await fetch(url)
         .then(res => {return res.json()})
         .then(data => {dispatch({type: LOGIN, payload: data})})
-        .catch(err => console.log(err))
+        .catch(err => {
+            let error = {
+                code: 'Error: Network',
+                message: 'Network Request Failed',
+                result: false
+            }
+            dispatch({type: LOGIN, payload: error})})
     }
 }

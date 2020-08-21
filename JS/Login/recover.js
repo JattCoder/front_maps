@@ -60,7 +60,7 @@ const Recover = (props) => {
             {rcode == true ? <Dialog.Container visible={true}>
                 <Dialog.Title>Check Your Email</Dialog.Title>
                 <Dialog.Description>Enter Code Received in Email</Dialog.Description>
-                <Dialog.Input textAlign={'center'} onChangeText={(e)=>setecode(e)}/>
+                <Dialog.Input textAlign={'center'} autoCapitalize = 'none' onChangeText={(e)=>setecode(e)}/>
                 <Dialog.Button label='Cancel' onPress={()=>{alert('cancel')}}/>
                 <Dialog.Button label='ReSend' onPress={()=>forgotPIN()} />
                 <Dialog.Button label='Recover' onPress={()=>dispatch(confirmpin(email,ecode))}/>
@@ -75,18 +75,18 @@ const Recover = (props) => {
             <TouchableOpacity style={Styles.NameBox}>
                 <Text style={{color:'white'}}>Name</Text>
                 <TouchableOpacity style={{height:25,borderWidth:0.6,marginLeft:7,marginTop:-4,borderColor:'black'}}/>
-                <TextInput style={Styles.NameInput} onChangeText={(e)=>setname(e)}/>
+                <TextInput style={Styles.NameInput} autoCapitalize = 'none' onChangeText={(e)=>setname(e)}/>
             </TouchableOpacity>
             <TouchableOpacity style={Styles.EmailBox}>
                 <Text style={{color:'white'}}>Email</Text>
                 <TouchableOpacity style={{height:25,borderWidth:0.6,marginLeft:7,marginTop:-4,borderColor:'black'}}/>
-                <TextInput style={Styles.EmailInput} onChangeText={(e)=>setemail(e)}/>
+                <TextInput style={Styles.EmailInput} autoCapitalize = 'none' onChangeText={(e)=>setemail(e)}/>
             </TouchableOpacity>
             <Text style={Styles.PinCode}>Recovery PIN Code: It was set during Registration</Text>
             <TouchableOpacity style={Styles.PinBox}>
                 <Text style={{color:'white'}}>PIN   </Text>
                 <TouchableOpacity style={{height:25,borderWidth:0.6,marginLeft:7,marginTop:-4,borderColor:'black'}}/>
-                <TextInput style={Styles.EmailInput} onChangeText={(e)=>setpin(e)}/>
+                <TextInput style={Styles.EmailInput} autoCapitalize = 'none' onChangeText={(e)=>setpin(e)}/>
             </TouchableOpacity>
             <TouchableOpacity style={Styles.Recover} onPress={()=>attemptRecovery()}>
                 {startRecovery == false ? <Text style={Styles.RecoverText}>Recover</Text> : <ActivityIndicator size='small' color='#5810d8'/>}

@@ -1,43 +1,70 @@
 import React,{ useState, useEffect } from 'react'
-import { View, StyleSheet,Text,TouchableOpacity,Image } from 'react-native'
+import { View, StyleSheet,Text,TouchableOpacity,TextInput, ActivityIndicator } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
-import { currentuser } from '../../actions/currentuser/currentuser'
+import { confirm } from '../../actions/confirmacc/confirm'
+import { resconfirm } from '../../actions/confirmacc/resconfirm'
+import { confirmcode } from '../../actions/confirmacc/confirmcode'
 import DeviceInfo from 'react-native-device-info';
 import Dialog from "react-native-dialog";
 
 const Login = (props) => {
 
-    const[confirmbox,setconfirmbox] = useState(false)
-    const[profileconfirm,setprofileconfirm] = useState(false)
-    const[emailconfirm,setemailconfirm] = useState('')
     const[code,setcode] = useState('')
+    const[loaded,setloaded] = useState(false)
     const[submit,setsubmit] = useState(false)
     const dispatch = useDispatch()
 
-    submit = () => {
-        if(submit != true){
-            setsubmit(true)
-            dispatch()
+    useEffect(()=>{
+        if(!loaded){
+            sendCode()
+            setloaded(true)
+        }
+    })
+
+    sendCode = () => {
+        dispatch(confirm(props.route.params.user.name,props.route.params.user.email))
+    }
+
+    submitConfirm = () => {
+        if(code == '') {
+            alert('Please Enter Code')
+        }else{
+            if(submit != true){
+                setsubmit(true)
+                dispatch(confirmcode(props.route.params.user.email,code))
+            }
         }
     }
-    
+
+    useSelector((state)=>{
+        if(state.confirmacc.result == false && state.confirmacc.message != ''){
+            alert(state.confirmacc.message)
+            if(submit)setsubmit(false)
+            dispatch(resconfirm())
+        }else if(state.confirmacc.result == true && state.confirmacc.message == 'Account Confirmed'){
+            props.navigation.navigate('Home',{user: props.route.params.user})
+            dispatch(resconfirm())
+        }
+    })
+
     return(
         <View style={Styles.Page}>
             <Text style={{color:'white',fontSize:30}}>Welcome</Text>
-            <Text style={{color:'white',fontSize:20,marginTop:10}}>{props.route.params.user.email}</Text>
-            <Text style={{color:'white',fontSize:20,marginTop:10}}>Lets Confirm your Email</Text>
-            <Text style={{color:'white',fontSize:20,marginTop:10}}>Just emailed you new Temporary Confirmation Code</Text>
+            <Text style={{color:'white',fontSize:20,marginTop:10}}>{props.route.params.user.name}</Text>
+            <Text style={{color:'white',fontSize:15,marginTop:100,alignContent:'center'}}>Email is not confirmed</Text>
+            <Text style={{color:'white',fontSize:15}}>Please check your email for confirmation code</Text>
             <TouchableOpacity style={Styles.CodeBox}>
-                <Text style={{color:'white'}}>Pass </Text>
+                <Text style={{color:'white'}}>Code</Text>
                 <TouchableOpacity style={{height:25,borderWidth:0.6,marginLeft:7,marginTop:-4,borderColor:'black'}}/>
-                <TextInput style={Styles.CodeInput} onChangeText={(e)=>setcode(e)}/>
+                <TextInput style={Styles.CodeInput} autoCapitalize = 'none' onChangeText={(e)=>setcode(e)}/>
             </TouchableOpacity>
-            <TouchableOpacity style={Styles.Submit} onPress={()=>submit()}>
+            <TouchableOpacity style={Styles.Submit} onPress={()=>submitConfirm()}>
                 {submit == false ? <Text style={Styles.GoogleText}>Confirm</Text> : <ActivityIndicator size='small' color='#5810d8'/>}
             </TouchableOpacity>
-            <TouchableOpacity style={Styles.Cancel} onPress={()=>{props.navigation.navigate('Login')}}>
-                <Text style={Styles.GoogleText}>Cancel</Text>
+            <TouchableOpacity style={Styles.Resent} onPress={()=>{sendCode()}}>
+                <Text style={Styles.GoogleText}>Resend New Code</Text>
             </TouchableOpacity>
+            <Text style={Styles.Cancel} onPress={()=>props.navigation.navigate('Login')}>Cancel</Text>
         </View>
     )
 }
@@ -81,8 +108,8 @@ const Styles = StyleSheet.create({
         width:250,
         flexDirection:'row'
     },
-    Cancel:{
-        marginTop:60,
+    Resent:{
+        marginTop:20,
         borderRadius:25,
         backgroundColor:'white',
         height:45,
@@ -92,4 +119,9 @@ const Styles = StyleSheet.create({
         width:250,
         flexDirection:'row'
     },
+    Cancel:{
+        color:'white',
+        marginTop:30,
+        fontSize:15
+    }
 })

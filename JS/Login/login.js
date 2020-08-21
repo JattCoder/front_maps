@@ -4,7 +4,6 @@ import { TouchableOpacity, TextInput } from 'react-native-gesture-handler'
 import { useSelector, useDispatch } from 'react-redux'
 import { login } from '../../actions/login/login'
 import { reslogin } from '../../actions/login/reslogin'
-import { currentuser } from '../../actions/currentuser/currentuser'
 import Dialog from "react-native-dialog";
 import DeviceInfo from 'react-native-device-info';
 
@@ -35,7 +34,6 @@ const Login = (props) => {
                 });
             }
         }
-        settries(tries+1)
     }
 
     GoogleAttempt = () => {
@@ -59,24 +57,24 @@ const Login = (props) => {
     }
 
     useSelector((state)=>{
-        if(state.currentuser.email != ''){
-            props.navigation.navigate('Home')
-        }
         if(state.login.result == false && state.login.message != ''){
             if(state.login.message == 'Already loggedin, on another Device') {
                 setmessage('Someone could be using your Account. Would you like to Recover it?')
                 settries(4)
             }else alert(state.login.message)
             dispatch(reslogin())
-            if(loginLoad == true) setloginLoad(false)
-            if(googleLoad == true) setgoogleLoad(false)
         }else if(state.login.result == true){
             user = state.login.message
-            if (user.confirmed == false) props.navigation.navigate('ConfirmEmail',{user: user})
+            if (user.confirmed == false) {
+                props.navigation.navigate('ConfirmEmail',{user: user})
+                dispatch(reslogin())
+            }
             else{
-                dispatch(currentuser(user))
+                props.navigation.navigate('Home')
             }
         }
+        if(loginLoad == true) setloginLoad(false)
+        if(googleLoad == true) setgoogleLoad(false)
     })
 
     return(
@@ -94,15 +92,15 @@ const Login = (props) => {
             </Dialog.Container>}
             <Text style={Styles.Heading}>Welcome to New App</Text>
             <Image source={{uri:'https://images.app.goo.gl/REU5wKvQuZMF4YGL6'}}/>
-            <TouchableOpacity style={Styles.EmailBox}>
+            <TouchableOpacity style={Styles.EmailBox} activeOpacity={1}>
                 <Text style={{color:'white'}}>Email</Text>
                 <TouchableOpacity style={{height:25,borderWidth:0.6,marginLeft:7,marginTop:-4,borderColor:'black'}}/>
-                <TextInput style={Styles.EmailInput} onChangeText={(e)=>setemail(e)}/>
+                <TextInput style={Styles.EmailInput} autoCapitalize = 'none' onChangeText={(e)=>setemail(e)}/>
             </TouchableOpacity>
-            <TouchableOpacity style={Styles.PassBox}>
+            <TouchableOpacity style={Styles.PassBox} activeOpacity={1}>
                 <Text style={{color:'white'}}>Pass </Text>
                 <TouchableOpacity style={{height:25,borderWidth:0.6,marginLeft:7,marginTop:-4,borderColor:'black'}}/>
-                <TextInput style={Styles.PassInput} secureTextEntry={true} onChangeText={(e)=>setpass(e)}/>
+                <TextInput style={Styles.PassInput} autoCapitalize = 'none' secureTextEntry={true} onChangeText={(e)=>setpass(e)}/>
             </TouchableOpacity>
             <TouchableOpacity style={Styles.Login} onPress={()=>LoginAttempt()}>
                 {loginLoad == false ? <Text style={Styles.LoginText}>Login</Text> : <ActivityIndicator size='small' color='#5810d8'/>}
@@ -161,7 +159,7 @@ const Styles = StyleSheet.create({
         color:'black',
     },
     EmailBox:{
-        marginTop:330,
+        marginTop:'70%',
         borderRadius:25,
         borderColor:'black',
         borderWidth:0.8,

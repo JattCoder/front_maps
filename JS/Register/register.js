@@ -47,7 +47,7 @@ const Register = (props) => {
             if(registerLoad == true) setregisterLoad(false)
         }else if(state.register.result == true){
             user = state.register.message
-            props.navigation.navigate('ConfirmLogin', {user: user})
+            props.navigation.navigate('ConfirmEmail', {user: user})
         }
     })
 
@@ -57,34 +57,34 @@ const Register = (props) => {
             <TouchableOpacity style={Styles.FirstBox}>
                 <Text style={{color:'white'}}>Name </Text>
                 <TouchableOpacity style={{height:25,borderWidth:0.6,marginLeft:7,marginTop:-4,borderColor:'black'}}/>
-                <TextInput style={Styles.FirstInput} onChangeText={(e)=>setname(e)}/>
+                <TextInput style={Styles.FirstInput} autoCapitalize = 'none' onChangeText={(e)=>setname(e)}/>
             </TouchableOpacity>
             <TouchableOpacity style={Styles.NextBox}>
                 <Text style={{color:'white'}}>Email  </Text>
                 <TouchableOpacity style={{height:25,borderWidth:0.6,marginLeft:7,marginTop:-4,borderColor:'black'}}/>
-                <TextInput style={Styles.NextInput} onChangeText={(e)=>setemail(e)}/>
+                <TextInput style={Styles.NextInput} autoCapitalize = 'none' onChangeText={(e)=>setemail(e)}/>
             </TouchableOpacity>
             <TouchableOpacity style={Styles.NextBox}>
                 <Text style={{color:'white'}}>Phone</Text>
                 <TouchableOpacity style={{height:25,borderWidth:0.6,marginLeft:7,marginTop:-4,borderColor:'black'}}/>
-                <TextInput style={Styles.NextInput} onChangeText={(e)=>setphone(e)}/>
+                <TextInput style={Styles.NextInput} autoCapitalize = 'none' onChangeText={(e)=>setphone(e)}/>
             </TouchableOpacity>
             <TouchableOpacity style={Styles.NextBox}>
                 <Text style={{color:'white'}}>Pass  </Text>
                 <TouchableOpacity style={{height:25,borderWidth:0.6,marginLeft:7,marginTop:-4,borderColor:'black'}}/>
-                <TextInput style={Styles.NextInput} secureTextEntry={true} onChangeText={(e)=>setpass(e)}/>
+                <TextInput style={Styles.NextInput} autoCapitalize = 'none' secureTextEntry={true} onChangeText={(e)=>setpass(e)}/>
             </TouchableOpacity>
             <TouchableOpacity style={Styles.NextBox}>
                 <Text style={{color:'white'}}>Pass  </Text>
                 <TouchableOpacity style={{height:25,borderWidth:0.6,marginLeft:7,marginTop:-4,borderColor:'black'}}/>
-                <TextInput style={Styles.NextInput} secureTextEntry={true} onChangeText={(e)=>setrpass(e)}/>
+                <TextInput style={Styles.NextInput} autoCapitalize = 'none' secureTextEntry={true} onChangeText={(e)=>setrpass(e)}/>
             </TouchableOpacity>
             <Text style={{color:'white',marginTop:20}}>Recovery Code: Use this code to recover your Account</Text>
             <Text style={{color:'white',fontStyle:'italic'}}>(Keep it Safe)</Text>
             <TouchableOpacity style={Styles.CodeBox}>
                 <Text style={{color:'white'}}>Code </Text>
                 <TouchableOpacity style={{height:25,borderWidth:0.6,marginLeft:7,marginTop:-4,borderColor:'black'}}/>
-                <TextInput style={Styles.CodeInput} secureTextEntry={true} onChangeText={(e)=>setcode(e)}/>
+                <TextInput style={Styles.CodeInput} autoCapitalize = 'none' secureTextEntry={true} onChangeText={(e)=>setcode(e)}/>
             </TouchableOpacity>
             <TouchableOpacity style={Styles.Register} onPress={()=>RegisterAttempt()}>
                 {registerLoad == false ? <Text style={Styles.RegisterText}>Register</Text> : <ActivityIndicator size='small' color='#5810d8'/>}
