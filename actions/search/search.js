@@ -1,10 +1,16 @@
 export const SEARCH = 'SEARCH'
 
-export const search = (id,input,region) => {
+export const search = (id,input,lat,lng) => {
     return async (dispatch) => {
-        return await fetch(`http://localhost:3000/account/${id}/search/${input}/lat=/${region.lat}/lng=/${region.lng}`)
+        var url = new URL(`http://localhost:3000/account/${id}/search/${input}`),
+            params = {lat,lng}
+            Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
+        return await fetch(url)
         .then(res => {return res.json()})
-        .then(data => {dispatch({type: SEARCH, payload: data})})
+        .then(data => {
+            //dispatch({type: SEARCH, payload: data})
+            console.log(data)
+        })
         .catch(err => {
             let error = {
                 code: 'Error: Network',

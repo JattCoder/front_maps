@@ -18,25 +18,18 @@ const Login = (props) => {
     const dispatch = useDispatch()
 
     LoginAttempt = () => {
-        user = {
-            name:'Harmandeep Mand',
-            email:'harmandeepmand.hm@gmail.com',
-            photo:'',
-            phone:'4403171521'
+        if(email == '' || pass == ''){
+            if(email == '') alert('Email field is empty')
+            else if(pass == '') alert('Password field is empty')
+        }else{
+            settries(tries+1)
+            if(loginLoad != true || googleLoad != true){
+                setloginLoad(true)
+                DeviceInfo.getMacAddress().then(mac => {
+                    dispatch(login(email,pass,'App',mac))
+                });
+            }
         }
-        props.navigation.navigate('Home',{user:user})
-        // if(email == '' || pass == ''){
-        //     if(email == '') alert('Email field is empty')
-        //     else if(pass == '') alert('Password field is empty')
-        // }else{
-        //     settries(tries+1)
-        //     if(loginLoad != true || googleLoad != true){
-        //         setloginLoad(true)
-        //         DeviceInfo.getMacAddress().then(mac => {
-        //             dispatch(login(email,pass,'App',mac))
-        //         });
-        //     }
-        // }
     }
 
     GoogleAttempt = () => {
