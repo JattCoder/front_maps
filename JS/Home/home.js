@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image, ScrollView } from 'react-native'
-import { useDispatch, useSelector } from 'react-redux'
+import { View, StyleSheet, TouchableOpacity, TextInput, Image, Text } from 'react-native'
 import Uimage from './uimage'
 import MapView, { Marker } from 'react-native-maps';
-import { search } from '../../actions/search/search'
 import { GoogleAutoComplete } from 'react-native-google-autocomplete';
+import Searchlist from '../Components/location/searchlist'
 import { Myposition } from '../Components/location/myposition'
 
 const Home = (props) => {
     const [user, setuser] = useState({})
-    const [src, setsearch] = useState('')
     const [position, setposition] = useState({
         latitude: 41.392502,
         longitude: -81.534447,
@@ -20,26 +18,15 @@ const Home = (props) => {
         accuracy: 0,
         received: true
     })
-    const dispatch = useDispatch()
-    // let nextposition = Myposition(position)
-    // if(nextposition.latitude != position.latitude || nextposition.longitude != position.longitude){
-    //     setposition(Myposition(position))
-    // }
-    useSelector((state) => {
-        console.log('Data for search...: ', state.src)
-    })
 
     useEffect(() => {
         setuser(props.route.params.user)
     })
+
     selectedRegion = (pos) => {
-        //i will be making calls to backend to get the data of autocomplete,
-        //if 2 to 0 autocomplete, then look for places, to show it to user
+        console.log('Region changed to...: ',pos)
     }
-    searchIt = (e) => {
-        setsearch(e)
-        dispatch(search(user.id, e, position.latitude, position.longitude))
-    }
+
     return (
         <View style={{ height: '100%', width: '100%' }}>
             <View style={Styles.Page}>
@@ -63,14 +50,26 @@ const Home = (props) => {
                     <GoogleAutoComplete apiKey='AIzaSyDMCLs_nBIfA8Bw9l50nSRwLOUByiDel9U' debounce={300}>
                         {({ inputValue, handleTextChange, locationResults, fetchDetails }) => (
                             <React.Fragment>
-                                <TextInput style={Styles.SearchInput}
-                                value={inputValue}
-                                onChangeText={handleTextChange}
-                                placeholder="Search..."
-                                />
-                                {locationResults.map((el, i) => (
-                                    <Text key={i} style={{fontSize:15,marginTop:8, height:20, width:300}}>{el.place_id}</Text>
-                                ))}
+                                <View style={{width:'100%',flexDirection:'row'}}>
+                                    <TextInput style={Styles.SearchInput} value={inputValue} onChangeText={handleTextChange} placeholder="Search..."/>
+                                    {inputValue != '' ? 
+                                    <View onPress={()=>alert('Pressed')} style={{zIndex:20,height:20,width:20,borderRadius:25,backgroundColor:'darkgrey',marginLeft:10,justifyContent:'center',alignItems:'center'}}>
+                                        <Text>X</Text>
+                                    </View> : null}
+                                </View>
+                                {inputValue.length >= 1 ? 
+                                    <View style={{borderWidth:1,marginTop:15,marginLeft:-13,width:280,borderRadius:10,backgroundColor: 'rgba(0,0,0,0.2)'}}>
+                                    {locationResults.map((el, i) => (
+                                        <TouchableOpacity onPress={()=>alert('Pressed.. '+el.structured_formatting.secondary_text)}>
+                                            <Searchlist uid={user.id} name={el.structured_formatting.secondary_text} description={el.description} placeid={el.place_id} lat={position.latitude} lng={position.longitude}/>
+                                            <View style={{justifyContent:'center',alignItems:'center',width:'100%'}}>
+                                                <TouchableOpacity style={{width:230, borderWidth:0.5}}/>
+                                            </View>
+                                        </TouchableOpacity>
+                                        //<Text key={i} style={{fontSize:15,marginTop:8, height:20, width:300}}>{el.description}</Text>
+                                    ))}
+                                    </View>
+                                : null}
                             </React.Fragment>
                         )}
                     </GoogleAutoComplete>
@@ -107,10 +106,10 @@ const Styles = StyleSheet.create({
     SearchInput: {
         paddingLeft: 1,
         paddingRight: 1,
-        width: 190,
+        width: 210,
         height: 20,
         marginLeft: 10,
-        color: 'white'
+        color: 'black'
     },
     ImageBox: {
         marginTop: '20%',

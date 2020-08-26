@@ -18,6 +18,8 @@ const Passreset = (props) => {
             }else{
                 alert("Apologize for Inconvenience, Still Updating your Password")
             }
+        }else{
+            alert('Please check your password entry')
         }
     }
 
@@ -39,12 +41,12 @@ const Passreset = (props) => {
             <TouchableOpacity style={Styles.PassBox}>
                 <Text style={{color:'white'}}>Pass </Text>
                 <TouchableOpacity style={{height:25,borderWidth:0.6,marginLeft:7,marginTop:-4,borderColor:'black'}}/>
-                <TextInput style={Styles.PassInput} autoCapitalize = 'none' onChangeText={(e)=>setpass(e)}/>
+                <TextInput style={Styles.PassInput} secureTextEntry={true} autoCapitalize = 'none' onChangeText={(e)=>setpass(e)}/>
             </TouchableOpacity>
             <TouchableOpacity style={Styles.RPassBox}>
                 <Text style={{color:'white'}}>Pass </Text>
                 <TouchableOpacity style={{height:25,borderWidth:0.6,marginLeft:7,marginTop:-4,borderColor:'black'}}/>
-                <TextInput style={Styles.RPassInput} autoCapitalize = 'none' onChangeText={(e)=>setrpass(e)}/>
+                <TextInput style={Styles.RPassInput} secureTextEntry={true} autoCapitalize = 'none' onChangeText={(e)=>setrpass(e)}/>
             </TouchableOpacity>
             <TouchableOpacity style={Styles.Change} onPress={()=>changePass()}>
                 {change == false ? <Text style={Styles.ChangeText}>Change Password</Text> : <ActivityIndicator size='small' color='#5810d8'/>}
