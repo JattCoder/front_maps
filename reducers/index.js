@@ -5,10 +5,9 @@ import recovery from './recover'
 import recovered from './recovered'
 import confirmacc from './confirmacc'
 import mylocation from './mylocation'
-import src from './search'
 
 const rootreducers =  combineReducers({
-  login,recovery,register,recovered,confirmacc,mylocation,src
+  login,recovery,register,recovered,confirmacc,mylocation
 })
 
 export default rootreducers
