@@ -4,7 +4,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 
 export default Displaycard = (props) => {
     return(
-        <TouchableOpacity onPress={()=>{alert(props.item.geo.lat)}} style={Styles.Card}>
+        <View style={Styles.Card}>
             <View style={{flexDirection:'row'}}>
                 <View style={{width:'70%'}}>
                     <View style={{flexDirection:'row'}}>
@@ -30,7 +30,7 @@ export default Displaycard = (props) => {
                 </View>
             </View>
             <TouchableOpacity style={{width:'100%',borderWidth:0.4,marginTop:20,borderColor:'rgba(0,0,0,0.2)'}}/>
-        </TouchableOpacity>
+        </View>
     )
 }
 

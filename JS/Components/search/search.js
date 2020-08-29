@@ -7,7 +7,10 @@ export default Search = () => {
     const [input,setinput] = useState('')
     const [oldinput,setoldinput] = useState('')
     const [places,setplaces] = useState([])
-    const [searching,setsearching] = useState(false)
+    const [selected,setselected] = useState({
+        lat:0,
+        lng:0
+    })
     if(input != '' && input != oldinput){
         setTimeout(()=>{
             var url = new URL("http://localhost:3000/account/search"),
@@ -20,7 +23,7 @@ export default Search = () => {
                 setoldinput(input)
             })
             .catch(err => {console.log(err)})
-        },700)
+        },2000)
     }else if(input == ''){
         if(places.length > 0)setplaces([])
     }
@@ -43,7 +46,9 @@ export default Search = () => {
                     places.length > 0 ? 
                     <ScrollView showsHorizontalScrollIndicator={false} style={Styles.List}>
                         {places.map((item)=>{
-                            return <Displaycard item={item} />
+                            return  <TouchableOpacity onPress={()=>alert(item.geo.lat)}>
+                                        <Displaycard key={item.place_id} item={item} />
+                                    </TouchableOpacity>
                         })}
                     </ScrollView> : <ActivityIndicator size='small' color='black' style={{marginTop:'10%'}}/> : null}
             </View>
